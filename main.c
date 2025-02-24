@@ -6,6 +6,9 @@
 
 const uint pino_botao_a = 5;
 const uint pino_botao_b = 6;
+const uint pino_vrx = 27; // pino do eixo X do joystick
+const uint pino_vry = 26; // pino do eixo Y do joystick
+const uint pino_botao_joystick = 22; // pino do botão do joystick
 
 void gpio_irq_handler(uint gpio, uint32_t events); // prototipo da função para tratar a interrupção dos botoes
 bool repeating_timer_callback(struct repeating_timer *t); // prototipo da função para o timer

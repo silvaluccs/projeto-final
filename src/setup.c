@@ -1,10 +1,15 @@
 #include "hardware/i2c.h"
+#include "hardware/adc.h"
 #include "ssd1306.h"
 #include "font.h"
+
 #define I2C_PORT i2c1
 #define I2C_SDA 14
 #define I2C_SCL 15
 #define endereco 0x3C
+
+
+
 
 void init_display(ssd1306_t *ssd) {
     // Inicializa o display usando o ponteiro passado como argumento
@@ -42,3 +47,13 @@ void setup_botoes(uint pin) {
     gpio_set_dir(pin, GPIO_IN);
     gpio_pull_up(pin);
   }
+
+
+void setup_joystick(uint pino_vrx, uint pino_vry, uint pino_sw) {
+  adc_init();
+  adc_gpio_init(pino_vrx);
+  adc_gpio_init(pino_vry);
+  gpio_init(pino_sw);
+  gpio_set_dir(pino_sw, GPIO_IN);
+  gpio_pull_up(pino_sw);
+}
