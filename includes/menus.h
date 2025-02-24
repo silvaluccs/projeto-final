@@ -10,4 +10,6 @@ typedef enum MENU_PRINCIPAL {
     CONFIGURACOES = 3,
 } MENU_PRINCIPAL;
 
+
+
 #endif

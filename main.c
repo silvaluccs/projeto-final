@@ -21,6 +21,7 @@ bool repeating_timer_callback_joystick(struct repeating_timer *t); // prototipo 
 
 bool entrar_menu = false; // variável para controlar a entrada no menu
 Posicao posicao_joystick; // estrutura para armazenar a posição do joystick
+DADOS_SISTEMA dados_sistema; // estrutura para armazenar os dados do sistema
 
 ssd1306_t ssd;
 
@@ -36,6 +37,10 @@ int main()
 
   setup_display();
   init_display(&ssd);
+
+  dados_sistema.nivel_reservatorio = 0;
+  dados_sistema.modo_operacao = AUTOMATICO;
+
 
   // timer para verificar se tem entradda
   struct repeating_timer timer_menu;
@@ -63,8 +68,10 @@ int main()
 
 void gpio_irq_handler(uint gpio, uint32_t events) {
 
+
   if (gpio == pino_botao_a) {
     entrar_menu = true;
+    
   } 
 
 }
@@ -72,9 +79,14 @@ void gpio_irq_handler(uint gpio, uint32_t events) {
 
 bool repeating_timer_callback_menu(struct repeating_timer *t) {
 
-  gerenciar_menus(&ssd, &posicao_joystick, entrar_menu);
+  gerenciar_menus(&ssd, &posicao_joystick, entrar_menu, &dados_sistema);
   entrar_menu = false;
 
+  if (dados_sistema.modo_operacao == MANUAL) {
+    printf("Modo Manual\n");
+  } else {
+    printf("Modo Automatico\n");
+  }
   return true;
 
 }
@@ -82,6 +94,5 @@ bool repeating_timer_callback_menu(struct repeating_timer *t) {
 
 bool repeating_timer_callback_joystick(struct repeating_timer *t) {
   controle_joystick(&posicao_joystick);
-  printf("X: %d Y: %d\n", posicao_joystick.x, posicao_joystick.y);
   return true;
 }

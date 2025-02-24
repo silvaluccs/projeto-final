@@ -39,6 +39,8 @@
     "files.associations": {
         "i2c.h": "c",
         "controle_menu.h": "c",
-        "joystick.h": "c"
+        "joystick.h": "c",
+        "setup.h": "c",
+        "stdlib.h": "c"
     }
 }
