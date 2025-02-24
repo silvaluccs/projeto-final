@@ -4,10 +4,10 @@
 #include "pico/stdlib.h"
 
 typedef enum MENU_PRINCIPAL {
-    NIVEL_RESERVATORIO,
-    MODO_OPERACAO,
-    CONTROLE_BOMBA,
-    CONFIGURACOES
+    NIVEL_RESERVATORIO = 0,
+    MODO_OPERACAO = 1,
+    CONTROLE_BOMBA = 2,
+    CONFIGURACOES = 3,
 } MENU_PRINCIPAL;
 
 #endif

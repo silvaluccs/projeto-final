@@ -67,7 +67,8 @@ void gpio_irq_handler(uint gpio, uint32_t events) {
 
 bool repeating_timer_callback_menu(struct repeating_timer *t) {
 
-  menu_principal(&ssd);
+
+  menu_principal(&ssd, &posicao_joystick);
   return true;
 
 }
@@ -75,5 +76,6 @@ bool repeating_timer_callback_menu(struct repeating_timer *t) {
 
 bool repeating_timer_callback_joystick(struct repeating_timer *t) {
   controle_joystick(&posicao_joystick);
+  printf("X: %d Y: %d\n", posicao_joystick.x, posicao_joystick.y);
   return true;
 }
