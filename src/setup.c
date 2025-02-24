@@ -32,3 +32,13 @@ void setup_display() {
    
   
   }
+
+
+/*
+* Função para inicializar os botões
+*/
+void setup_botoes(uint pin) {
+    gpio_init(pin);
+    gpio_set_dir(pin, GPIO_IN);
+    gpio_pull_up(pin);
+  }

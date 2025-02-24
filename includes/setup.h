@@ -6,5 +6,6 @@
 
 void init_display(ssd1306_t *ssd);
 void setup_display();
+void setup_botoes(uint pin);
 
 #endif
