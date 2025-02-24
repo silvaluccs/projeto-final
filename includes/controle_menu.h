@@ -7,5 +7,6 @@
 
 void menu_principal(ssd1306_t *ssd, Posicao *posicao);
 void nivel_reservatorio(ssd1306_t *ssd);
+void gerenciar_menus(ssd1306_t *ssd, Posicao *posicao, bool entrar_menu);
 
 #endif

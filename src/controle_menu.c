@@ -3,22 +3,22 @@
 #include "menus.h"
 #include "joystick.h"
 
-const uint pin_botao_a = 5;
+const uint pin_botao_b = 6;
 
-static volatile MENU_PRINCIPAL menu_atual = MODO_OPERACAO;
-
+static volatile MENU_PRINCIPAL menu_atual = NIVEL_RESERVATORIO;
 
 void nivel_reservatorio(ssd1306_t *ssd) {
-    while (gpio_get(pin_botao_a) != 0) {
+    
+    while (gpio_get(pin_botao_b) != 0) {
         ssd1306_fill(ssd, false);
-        ssd1306_draw_string(ssd, "100%", 10, 30);
-        ssd1306_send_data(ssd);
-
+        ssd1306_draw_string(ssd, "100p", 20, 30);
+        ssd1306_send_data(ssd);    
     }
+ 
 }
 
 
-void menu_principal(ssd1306_t *ssd, Posicao *posicao, bool entrar_menu) {
+void menu_principal(ssd1306_t *ssd, Posicao *posicao) {
 
     if (posicao->x < 600 && menu_atual > 0) {
         menu_atual--;
@@ -32,7 +32,6 @@ void menu_principal(ssd1306_t *ssd, Posicao *posicao, bool entrar_menu) {
         case NIVEL_RESERVATORIO:
             ssd1306_draw_string(ssd, "PORCENTAGEM", 20, 30);
             ssd1306_draw_string(ssd, "AGUA", 20, 40);
-            nivel_reservatorio(ssd);
             break;
         case MODO_OPERACAO:
             ssd1306_draw_string(ssd, "MODO", 20, 30);
@@ -54,3 +53,23 @@ void menu_principal(ssd1306_t *ssd, Posicao *posicao, bool entrar_menu) {
 
 
 
+void gerenciar_menus(ssd1306_t *ssd, Posicao *posicao, bool entrar_menu) {
+
+    menu_principal(ssd, posicao);
+
+    if (entrar_menu) {
+        switch (menu_atual) {
+            case NIVEL_RESERVATORIO:
+                nivel_reservatorio(ssd);
+                break;
+            case MODO_OPERACAO:
+                break;
+            case CONTROLE_BOMBA:
+                break;
+            case CONFIGURACOES:
+                break;
+        }
+    }
+
+
+}

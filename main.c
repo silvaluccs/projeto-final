@@ -19,6 +19,7 @@ bool repeating_timer_callback_menu(struct repeating_timer *t); // prototipo da f
 bool repeating_timer_callback_joystick(struct repeating_timer *t); // prototipo da função para o timer
 
 
+bool entrar_menu = false; // variável para controlar a entrada no menu
 Posicao posicao_joystick; // estrutura para armazenar a posição do joystick
 
 ssd1306_t ssd;
@@ -61,14 +62,19 @@ int main()
 
 
 void gpio_irq_handler(uint gpio, uint32_t events) {
-// TODO
+
+  if (gpio == pino_botao_a) {
+    entrar_menu = true;
+  } 
+
 }
 
 
 bool repeating_timer_callback_menu(struct repeating_timer *t) {
 
+  gerenciar_menus(&ssd, &posicao_joystick, entrar_menu);
+  entrar_menu = false;
 
-  menu_principal(&ssd, &posicao_joystick);
   return true;
 
 }
