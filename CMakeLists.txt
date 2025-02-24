@@ -34,7 +34,7 @@ project(projeto_final C CXX ASM)
 pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
-file(GLOB INCLUDES_FILES "include/*.h")
+file(GLOB INCLUDES_FILES "includes/*.h")
 file(GLOB SOURCES_FILES "src/*.c")
 add_executable(projeto_final main.c 
     ${INCLUDES_FILES}
@@ -50,17 +50,17 @@ pico_enable_stdio_usb(projeto_final 1)
 
 # Add the standard library to the build
 target_link_libraries(projeto_final
-        pico_stdlib)
+        pico_stdlib
+        hardware_i2c)
 
 # Add the standard include files to the build
 target_include_directories(projeto_final PRIVATE
-        ${CMAKE_CURRENT_LIST_DIR}
+        ${CMAKE_CURRENT_LIST_DIR}/includes/
 )
 
 # Add any user requested libraries
-target_link_libraries(projeto_final 
-${CMAKE_CURRENT_LIST_DIR}/include/
-        )
+target_link_libraries(projeto_final
+${CMAKE_CURRENT_LIST_DIR}  )
 
 pico_add_extra_outputs(projeto_final)
 
