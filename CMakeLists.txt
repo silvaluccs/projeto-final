@@ -50,9 +50,7 @@ pico_enable_stdio_usb(projeto_final 1)
 
 # Add the standard library to the build
 target_link_libraries(projeto_final
-        pico_stdlib
-        hardware_i2c
-        hardware_adc)
+        pico_stdlib)
 
 # Add the standard include files to the build
 target_include_directories(projeto_final PRIVATE
@@ -61,7 +59,8 @@ target_include_directories(projeto_final PRIVATE
 
 # Add any user requested libraries
 target_link_libraries(projeto_final
-${CMAKE_CURRENT_LIST_DIR}  )
+hardware_i2c
+hardware_adc)
 
 pico_add_extra_outputs(projeto_final)
 
