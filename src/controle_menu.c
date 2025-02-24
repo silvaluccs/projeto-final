@@ -7,6 +7,17 @@ const uint pin_botao_a = 5;
 
 static volatile MENU_PRINCIPAL menu_atual = MODO_OPERACAO;
 
+
+void nivel_reservatorio(ssd1306_t *ssd) {
+    while (gpio_get(pin_botao_a) != 0) {
+        ssd1306_fill(ssd, false);
+        ssd1306_draw_string(ssd, "100%", 10, 30);
+        ssd1306_send_data(ssd);
+
+    }
+}
+
+
 void menu_principal(ssd1306_t *ssd, Posicao *posicao, bool entrar_menu) {
 
     if (posicao->x < 600 && menu_atual > 0) {
@@ -42,11 +53,4 @@ void menu_principal(ssd1306_t *ssd, Posicao *posicao, bool entrar_menu) {
 
 
 
-void nivel_reservatorio(ssd1306_t *ssd) {
-    while (gpio_get(pin_botao_a) != 0) {
-        ssd1306_fill(ssd, false);
-        ssd1306_draw_string(ssd, "NIVEL RESERVATORIO", 10, 30);
-        ssd1306_send_data(ssd);
 
-    }
-}
