@@ -24,7 +24,16 @@ void nivel_reservatorio(ssd1306_t *ssd) {
 
 void modo_operacao(ssd1306_t *ssd, DADOS_SISTEMA *dados) {
     
-    do {
+    while (true) {
+
+        if (gpio_get(pin_botao_b) == 0) {
+            
+            if (!debouce(&ultimo_temp)) {
+                continue;
+            }
+            break;
+        }
+
         ssd1306_fill(ssd, false);
         
         if (dados->modo_operacao == MANUAL) {
@@ -44,14 +53,8 @@ void modo_operacao(ssd1306_t *ssd, DADOS_SISTEMA *dados) {
             dados->modo_operacao = (dados->modo_operacao == MANUAL) ? AUTOMATICO : MANUAL;
         }
 
-        if (gpio_get(pin_botao_b) == 0) {
-            
-            if (!debouce(&ultimo_temp)) {
-                continue;
-            }
-            break;
-        }
-    }   while (true);
+        
+    }   
         
  
 }

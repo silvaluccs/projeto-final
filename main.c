@@ -5,12 +5,17 @@
 #include "controle_menu.h"
 #include "joystick.h"
 #include <stdio.h>
+#include "debouce.h"
+#include "leds.h"
 
 const uint pino_botao_a = 5;
 const uint pino_botao_b = 6;
 const uint pino_vrx = 27; // pino do eixo X do joystick
 const uint pino_vry = 26; // pino do eixo Y do joystick
 const uint pino_botao_joystick = 22; // pino do botão do joystick
+const uint pino_led_vermelho = 13; // pino do led vermelho
+const uint pino_led_azul = 12; // pino do led amarelo
+const uint pino_led_verde = 11; // pino do led verde
 
 void gpio_irq_handler(uint gpio, uint32_t events); // prototipo da função para tratar a interrupção dos botoes
 
@@ -18,6 +23,7 @@ bool repeating_timer_callback_menu(struct repeating_timer *t); // prototipo da f
 
 bool repeating_timer_callback_joystick(struct repeating_timer *t); // prototipo da função para o timer
 
+static uint32_t ultimo_tempo = 0;
 
 bool entrar_menu = false; // variável para controlar a entrada no menu
 Posicao posicao_joystick; // estrutura para armazenar a posição do joystick
@@ -37,6 +43,10 @@ int main()
 
   setup_display();
   init_display(&ssd);
+
+  setup_led(pino_led_vermelho);
+  setup_led(pino_led_azul);
+  setup_led(pino_led_verde);
 
   dados_sistema.nivel_reservatorio = 0;
   dados_sistema.modo_operacao = AUTOMATICO;
@@ -68,6 +78,9 @@ int main()
 
 void gpio_irq_handler(uint gpio, uint32_t events) {
 
+  if (!debouce(&ultimo_tempo)) {
+    return;
+  }
 
   if (gpio == pino_botao_a) {
     entrar_menu = true;
@@ -94,5 +107,8 @@ bool repeating_timer_callback_menu(struct repeating_timer *t) {
 
 bool repeating_timer_callback_joystick(struct repeating_timer *t) {
   controle_joystick(&posicao_joystick);
+
+  gerenciar_leds(pino_led_vermelho, pino_led_azul, pino_led_verde, posicao_joystick, dados_sistema);
+
   return true;
 }
