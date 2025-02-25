@@ -57,3 +57,10 @@ void setup_joystick(uint pino_vrx, uint pino_vry, uint pino_sw) {
   gpio_set_dir(pino_sw, GPIO_IN);
   gpio_pull_up(pino_sw);
 }
+
+
+void setup_led(uint pino) {
+  gpio_init(pino);
+  gpio_set_dir(pino, GPIO_OUT);
+  gpio_put(pino, 0);
+}
