@@ -12,6 +12,43 @@ static volatile MENU_PRINCIPAL menu_atual = NIVEL_RESERVATORIO;
 
 static uint32_t ultimo_temp = 0;
 
+void controle_bomba(ssd1306_t *ssd, DADOS_SISTEMA *dados)  {
+
+    while (true) {
+
+        if (gpio_get(pin_botao_b) == 0) {
+            
+            if (!debouce(&ultimo_temp)) {
+                continue;
+            }
+            break;
+        }
+
+        ssd1306_fill(ssd, false);
+
+        if (dados->controle_bomba == ESVASIAR) {
+            ssd1306_draw_string(ssd, "ESVASIAR", 20, 30);
+        } else {
+            ssd1306_draw_string(ssd, "ENCHER", 20, 30);
+        }
+
+        ssd1306_send_data(ssd);
+
+        if (gpio_get(pin_botao_a) == 0) {
+            if (!debouce(&ultimo_temp)) {
+                continue;
+            }
+
+            dados->controle_bomba = (dados->controle_bomba == ESVASIAR) ? ENCHER : ESVASIAR;
+        }
+
+
+           
+    }
+
+}
+
+
 void nivel_reservatorio(ssd1306_t *ssd) {
     
     while (gpio_get(pin_botao_b) != 0) {

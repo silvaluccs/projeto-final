@@ -74,22 +74,33 @@ void gerenciar_leds(uint pino_led_vermelho, uint pino_led_azul, uint pino_led_ve
               alarme_reservatorio_nivel_medio(pino_led_vermelho, pino_led_azul, pino_led_verde);
           }      
 
+    } else {
+
+        if (dados_sistema.controle_bomba == ESVASIAR && dados_sistema.nivel_reservatorio == 0) {
+            alarme_reservatorio_vazio(pino_led_vermelho, pino_led_azul, pino_led_verde);
+        } else if (dados_sistema.controle_bomba == ENCHER && dados_sistema.nivel_reservatorio == 100) {
+            alarme_reservatorio_cheio(pino_led_vermelho, pino_led_azul, pino_led_verde);
+        } else {
+            alarme_reservatorio_nivel_medio(pino_led_vermelho, pino_led_azul, pino_led_verde);
+        }   
+
+
     }
 
    
 }
 
 void alarme_reservatorio_vazio(uint pino_led_vermelho, uint pino_led_azul, uint pino_led_verde) {
-    gpio_put(pino_led_vermelho, 0);
+    gpio_put(pino_led_vermelho, 1);
     gpio_put(pino_led_azul, 0);
-    gpio_put(pino_led_verde, 1);
+    gpio_put(pino_led_verde, 0);
 }
 
 
 void alarme_reservatorio_cheio(uint pino_led_vermelho, uint pino_led_azul, uint pino_led_verde) {
-    gpio_put(pino_led_vermelho, 1);
+    gpio_put(pino_led_vermelho, 0);
     gpio_put(pino_led_azul, 0);
-    gpio_put(pino_led_verde, 0);
+    gpio_put(pino_led_verde, 1);
 }
 
 

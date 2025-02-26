@@ -54,6 +54,7 @@ int main()
 
   dados_sistema.nivel_reservatorio = 100;
   dados_sistema.modo_operacao = AUTOMATICO;
+  dados_sistema.controle_bomba = ESVASIAR;
 
 
   // timer para verificar se tem entradda
@@ -123,6 +124,14 @@ bool repeating_timer_callback_nivel_matriz(struct repeating_timer *t) {
     uint porcetagem = (posicao_joystick.y * 100) / 4095;
 
     dados_sistema.nivel_reservatorio = porcetagem >= 97 ? 100 : porcetagem;
+
+  } else {
+
+    if (dados_sistema.controle_bomba == ESVASIAR && dados_sistema.nivel_reservatorio > 0) {
+      dados_sistema.nivel_reservatorio -= 1;
+    } else if (dados_sistema.controle_bomba == ENCHER && dados_sistema.nivel_reservatorio < 100) {
+      dados_sistema.nivel_reservatorio += 1;
+    }
 
   }
 
