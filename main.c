@@ -95,11 +95,6 @@ bool repeating_timer_callback_menu(struct repeating_timer *t) {
   gerenciar_menus(&ssd, &posicao_joystick, entrar_menu, &dados_sistema);
   entrar_menu = false;
 
-  if (dados_sistema.modo_operacao == MANUAL) {
-    printf("Modo Manual\n");
-  } else {
-    printf("Modo Automatico\n");
-  }
   return true;
 
 }

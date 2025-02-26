@@ -41,6 +41,8 @@ add_executable(projeto_final main.c
     ${SOURCES_FILES}
 )
 
+pico_generate_pio_header(Protocolos_comunicacao ${CMAKE_CURRENT_LIST_DIR}/src/ws2812.pio)
+
 pico_set_program_name(projeto_final "projeto_final")
 pico_set_program_version(projeto_final "0.1")
 
@@ -60,6 +62,8 @@ target_include_directories(projeto_final PRIVATE
 # Add any user requested libraries
 target_link_libraries(projeto_final
 hardware_i2c
+hardware_pio
+hardware_pwm
 hardware_adc)
 
 pico_add_extra_outputs(projeto_final)
