@@ -7,7 +7,8 @@
 
 typedef enum  Controle_bomb {
     ESVASIAR,
-    ENCHER
+    ENCHER,
+    PARAR
 } controle_bomba_t;
 
 typedef enum MODOS_OPERACAO {
@@ -24,7 +25,7 @@ typedef struct dados_sistema {
 
 
 void menu_principal(ssd1306_t *ssd, Posicao *posicao);
-void nivel_reservatorio(ssd1306_t *ssd);
+void nivel_reservatorio(ssd1306_t *ssd, uint nivel);
 void modo_operacao(ssd1306_t *ssd, DADOS_SISTEMA *dados);
 void gerenciar_menus(ssd1306_t *ssd, Posicao *posicao, bool entrar_menu, DADOS_SISTEMA *dados);
 void controle_bomba(ssd1306_t *ssd, DADOS_SISTEMA *dados);

@@ -54,7 +54,7 @@ int main()
 
   dados_sistema.nivel_reservatorio = 100;
   dados_sistema.modo_operacao = AUTOMATICO;
-  dados_sistema.controle_bomba = ESVASIAR;
+  dados_sistema.controle_bomba = PARAR;
 
 
   // timer para verificar se tem entradda
@@ -131,6 +131,8 @@ bool repeating_timer_callback_nivel_matriz(struct repeating_timer *t) {
       dados_sistema.nivel_reservatorio -= 1;
     } else if (dados_sistema.controle_bomba == ENCHER && dados_sistema.nivel_reservatorio < 100) {
       dados_sistema.nivel_reservatorio += 1;
+    } else {
+      dados_sistema.nivel_reservatorio = dados_sistema.nivel_reservatorio;
     }
 
   }

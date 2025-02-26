@@ -4,11 +4,12 @@
 #include "joystick.h"
 #include "controle_menu.h"
 #include "debouce.h"
+#include <stdio.h>
 
 const uint pin_botao_a = 5;
 const uint pin_botao_b = 6;
 
-static volatile MENU_PRINCIPAL menu_atual = NIVEL_RESERVATORIO;
+MENU_PRINCIPAL menu_atual = NIVEL_RESERVATORIO;
 
 static uint32_t ultimo_temp = 0;
 
@@ -28,32 +29,47 @@ void controle_bomba(ssd1306_t *ssd, DADOS_SISTEMA *dados)  {
 
         if (dados->controle_bomba == ESVASIAR) {
             ssd1306_draw_string(ssd, "ESVASIAR", 20, 30);
-        } else {
+        } else if (dados->controle_bomba == ENCHER) {
             ssd1306_draw_string(ssd, "ENCHER", 20, 30);
+        } else {
+            ssd1306_draw_string(ssd, "PARAR", 20, 30);
         }
 
         ssd1306_send_data(ssd);
 
         if (gpio_get(pin_botao_a) == 0) {
+            
             if (!debouce(&ultimo_temp)) {
                 continue;
             }
 
-            dados->controle_bomba = (dados->controle_bomba == ESVASIAR) ? ENCHER : ESVASIAR;
+            switch (dados->controle_bomba) {
+                case ESVASIAR:
+                    dados->controle_bomba = ENCHER;
+                    break;
+                case ENCHER:
+                    dados->controle_bomba = PARAR;
+                    break;
+                case PARAR:
+                    dados->controle_bomba = ESVASIAR;
+                    break;
+
+            }
         }
-
-
-           
     }
-
 }
 
 
-void nivel_reservatorio(ssd1306_t *ssd) {
+void nivel_reservatorio(ssd1306_t *ssd, uint nivel) {
+
+    char str[10];  // Buffer suficiente
+
+    
     
     while (gpio_get(pin_botao_b) != 0) {
+        sprintf(str, "%up", nivel);  // Adiciona '%' no final
         ssd1306_fill(ssd, false);
-        ssd1306_draw_string(ssd, "100p", 20, 30);
+        ssd1306_draw_string(ssd, str, 40, 30);
         ssd1306_send_data(ssd);    
     }
  
@@ -131,19 +147,23 @@ void menu_principal(ssd1306_t *ssd, Posicao *posicao) {
 
 
 
-void gerenciar_menus(ssd1306_t *ssd, Posicao *posicao, bool entrar_menu, DADOS_SISTEMA *dados) {
+void gerenciar_menus(ssd1306_t *ssd, Posicao *posicao, bool entrar_menu, DADOS_SISTEMA *dados)
+{
 
     menu_principal(ssd, posicao);
 
     if (entrar_menu) {
         switch (menu_atual) {
             case NIVEL_RESERVATORIO:
-                nivel_reservatorio(ssd);
+                nivel_reservatorio(ssd, dados->nivel_reservatorio);
                 break;
             case MODO_OPERACAO:
                 modo_operacao(ssd, dados);
                 break;
             case CONTROLE_BOMBA:
+                if (dados->modo_operacao == AUTOMATICO) {
+                    controle_bomba(ssd, dados);
+                }
                 break;
             case CONFIGURACOES:
                 break;
