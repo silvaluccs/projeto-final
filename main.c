@@ -16,12 +16,15 @@ const uint pino_botao_joystick = 22; // pino do botão do joystick
 const uint pino_led_vermelho = 13; // pino do led vermelho
 const uint pino_led_azul = 12; // pino do led amarelo
 const uint pino_led_verde = 11; // pino do led verde
+const uint pino_matriz_leds = 7; // pino da matriz de leds
 
 void gpio_irq_handler(uint gpio, uint32_t events); // prototipo da função para tratar a interrupção dos botoes
 
 bool repeating_timer_callback_menu(struct repeating_timer *t); // prototipo da função para o timer
 
 bool repeating_timer_callback_joystick(struct repeating_timer *t); // prototipo da função para o timer
+
+bool repeating_timer_callback_nivel_matriz(struct repeating_timer *t);
 
 static uint32_t ultimo_tempo = 0;
 
@@ -40,6 +43,7 @@ int main()
   setup_botoes(pino_botao_b);
 
   setup_joystick(pino_vrx, pino_vry, pino_botao_joystick); // configuração do joystick
+  setup_matriz_leds(pino_matriz_leds);  // inicializando a matriz de leds
 
   setup_display();
   init_display(&ssd);
