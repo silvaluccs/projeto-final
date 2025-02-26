@@ -52,7 +52,7 @@ int main()
   setup_led(pino_led_azul);
   setup_led(pino_led_verde);
 
-  dados_sistema.nivel_reservatorio = 0;
+  dados_sistema.nivel_reservatorio = 100;
   dados_sistema.modo_operacao = AUTOMATICO;
 
 
@@ -62,6 +62,9 @@ int main()
   
   struct repeating_timer timer_joystick;
   add_repeating_timer_ms(100, repeating_timer_callback_joystick, NULL, &timer_joystick);
+
+  struct repeating_timer timer_nivel_matriz;
+  add_repeating_timer_ms(100, repeating_timer_callback_nivel_matriz, NULL, &timer_nivel_matriz);
 
   // definindo uma interrupção para os botoes na borda de descida
   gpio_set_irq_enabled_with_callback(pino_botao_a, GPIO_IRQ_EDGE_FALL, true, &gpio_irq_handler); // botao A
@@ -108,6 +111,22 @@ bool repeating_timer_callback_joystick(struct repeating_timer *t) {
   controle_joystick(&posicao_joystick);
 
   gerenciar_leds(pino_led_vermelho, pino_led_azul, pino_led_verde, posicao_joystick, dados_sistema);
+
+  return true;
+}
+
+
+
+bool repeating_timer_callback_nivel_matriz(struct repeating_timer *t) {
+
+  if (dados_sistema.modo_operacao == MANUAL) {
+    uint porcetagem = (posicao_joystick.y * 100) / 4095;
+
+    dados_sistema.nivel_reservatorio = porcetagem >= 97 ? 100 : porcetagem;
+
+  }
+
+  gerenciar_matriz_leds(pino_matriz_leds, dados_sistema.nivel_reservatorio);
 
   return true;
 }

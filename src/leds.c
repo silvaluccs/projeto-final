@@ -4,6 +4,7 @@
 #include "controle_menu.h"
 #include "hardware/pio.h"
 #include "ws2812.pio.h"
+#include <stdio.h>
 
 const uint numero_pixels = 25;
 
@@ -17,35 +18,36 @@ static bool buffer_nivel_zero[25] = {
 
 
 static bool buffer_nivel_um[25] = {
-    0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0,
     1, 1, 1, 1, 1,
+    0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0,
 };
 
 static bool buffer_nivel_dois[25] = {
-    0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0,
     1, 1, 1, 1, 1,
     1, 1, 1, 1, 1,
+    0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0,
 };
 
 static bool buffer_nivel_tres[25] = {
+    1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1,
     0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0
-    1, 1, 1, 1, 1,
-    1, 1, 1, 1, 1,
-    1, 1, 1, 1, 1,
+    0, 0, 0, 0, 0,
 };
 
+
 static bool buffer_nivel_quatro[25] = {
+    1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1,
     0, 0, 0, 0, 0,
-    1, 1, 1, 1, 1,
-    1, 1, 1, 1, 1,
-    1, 1, 1, 1, 1,
-    1, 1, 1, 1, 1,
 };
 
 static bool buffer_nivel_cinco[25] = {
@@ -103,9 +105,32 @@ void gerenciar_matriz_leds(uint pino_matriz_leds, int nivel_reservatorio) {
   
     int quantidade_linhas = nivel_reservatorio / 20;
 
-    for (int i = 0; i < quantidade_linhas; i++) {
-        
-    
+    printf("Quantidade de linhas: %d\n", quantidade_linhas);
+
+    switch (quantidade_linhas)
+    {
+    case 0:
+        desenhar(0, 0, 20, buffer_nivel_zero);
+        break;
+    case 1:
+        desenhar(0, 0, 20, buffer_nivel_um);
+        break;
+    case 2:
+        desenhar(0, 0, 20, buffer_nivel_dois);
+        break;    
+    case 3:
+        desenhar(0, 0, 20, buffer_nivel_tres);
+        break;
+    case 4:
+        desenhar(0, 0, 20, buffer_nivel_quatro);
+        break;
+    case 5:
+        desenhar(0, 0, 20, buffer_nivel_cinco);
+        break;
+    default:
+        desenhar(0, 0, 20, buffer_nivel_zero);
+        break;
+    }
 
 }
 
