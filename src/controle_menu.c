@@ -136,9 +136,7 @@ void menu_principal(ssd1306_t *ssd, Posicao *posicao) {
             ssd1306_draw_string(ssd, "BOMBA", 20, 40);
             //    controle_bomba(ssd);
             break;
-        case CONFIGURACOES:
-            ssd1306_draw_string(ssd, "CONFIGURACOES", 15, 30);
-            break;
+        
     }
 
     ssd1306_send_data(ssd); // Atualiza o display
@@ -164,8 +162,6 @@ void gerenciar_menus(ssd1306_t *ssd, Posicao *posicao, bool entrar_menu, DADOS_S
                 if (dados->modo_operacao == AUTOMATICO) {
                     controle_bomba(ssd, dados);
                 }
-                break;
-            case CONFIGURACOES:
                 break;
         }
     }

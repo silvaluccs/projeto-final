@@ -8,6 +8,7 @@
 #include "debouce.h"
 #include "leds.h"
 
+
 const uint pino_botao_a = 5;
 const uint pino_botao_b = 6;
 const uint pino_vrx = 27; // pino do eixo X do joystick
@@ -99,6 +100,8 @@ void gpio_irq_handler(uint gpio, uint32_t events) {
 
 
 bool repeating_timer_callback_menu(struct repeating_timer *t) {
+
+  
 
   gerenciar_menus(&ssd, &posicao_joystick, entrar_menu, &dados_sistema);
   entrar_menu = false;
