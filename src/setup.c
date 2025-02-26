@@ -2,13 +2,13 @@
 #include "hardware/adc.h"
 #include "ssd1306.h"
 #include "font.h"
+#include "hardware/pio.h"
+#include "ws2812.pio.h"
 
 #define I2C_PORT i2c1
 #define I2C_SDA 14
 #define I2C_SCL 15
 #define endereco 0x3C
-
-
 
 
 void init_display(ssd1306_t *ssd) {
@@ -56,4 +56,24 @@ void setup_joystick(uint pino_vrx, uint pino_vry, uint pino_sw) {
   gpio_init(pino_sw);
   gpio_set_dir(pino_sw, GPIO_IN);
   gpio_pull_up(pino_sw);
+}
+
+
+void setup_led(uint pino) {
+  gpio_init(pino);
+  gpio_set_dir(pino, GPIO_OUT);
+  gpio_put(pino, 0);
+}
+
+
+/*
+* Função para inicializar a matriz de leds da placa
+*/
+void setup_matriz_leds(uint pino_matriz_leds) {
+
+  PIO pio = pio0;
+  int sm = 0;
+  uint offset = pio_add_program(pio, &ws2812_program);
+
+  ws2812_program_init(pio, sm, offset, pino_matriz_leds, 800000, false);
 }
