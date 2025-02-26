@@ -24,7 +24,7 @@ typedef struct dados_sistema {
 } DADOS_SISTEMA;
 
 
-void menu_principal(ssd1306_t *ssd, Posicao *posicao);
+void menu_principal(ssd1306_t *ssd, Posicao *posicao, MODOS_OPERACAO modo_op);
 void nivel_reservatorio(ssd1306_t *ssd, uint nivel);
 void modo_operacao(ssd1306_t *ssd, DADOS_SISTEMA *dados);
 void gerenciar_menus(ssd1306_t *ssd, Posicao *posicao, bool entrar_menu, DADOS_SISTEMA *dados);
