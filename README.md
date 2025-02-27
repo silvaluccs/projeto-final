@@ -1,7 +1,9 @@
 # Sistema de Gerenciamento de Reservatório de Água
 
 ## Visão Geral
-Este projeto implementa um sistema embarcado para monitoramento e controle de um reservatório de água utilizando um Raspberry Pi Pico. O sistema permite interação com o usuário através de um display OLED, um joystick e botões, além de utilizar LEDs para indicar o status do reservatório.
+Este projeto implementa um sistema embarcado para monitoramento e controle de um reservatório de água utilizando um Raspberry Pi Pico. O sistema permite interação com o 
+usuário através de um display OLED, um joystick e botões, além de utilizar LEDs para indicar o status do reservatório.
+Link vídeo: https://drive.google.com/file/d/1lNMx9fGC8Mudu3wTR1HKhoc5Jgq0u-il/view?usp=sharing
 
 ## Funcionalidades
 - **Monitoramento do nível da água** via sensores (a serem adicionados).
